@@ -14,6 +14,9 @@ const type2format = type => {
     case 'arrayOf':
       format = 'array';
       break;
+    case 'Array':
+      format = 'array';
+      break;
     case 'shape':
       format = 'object';
       break;
@@ -91,16 +94,16 @@ const getColumn = doc => {
 
 const getProp = props =>
   Object.keys(props).reduce((ret, propName) => {
-    const { description, type = {}, defaultValue } = props[propName];
-    const { name, value } = type;
+    const { description, flowType = {}, defaultValue } = props[propName];
+    const { name, value, elements } = flowType;
     // 只处理有注释的 prop
     if (description) {
       const result = {};
       result.type = type2format(name);
-      if (name === 'arrayOf') {
+      if (name === 'Array') {
         const obj = parse(description);
         result.items = {
-          type: type2format(value.name),
+          type: type2format(name),
         };
         if (obj && obj.format) {
           result.items = Object.assign(result.items, {
@@ -112,8 +115,8 @@ const getProp = props =>
         }
       }
 
-      if (name === 'enum') {
-        result.enum = value.map(item => item.value.replace(/'|"/g, ''));
+      if (name === 'union') {
+        result.enum = elements.map(item => item.value.replace(/'|"/g, ''));
       }
 
       if (defaultValue && defaultValue.value) {
@@ -187,8 +190,8 @@ const getObjProp = props => {
 const getUiWidgets = props =>
   Object.keys(props).reduce((ret, propName) => {
     const prop = props[propName];
-    const { description, type = {} } = prop;
-    const { name, value } = type;
+    const { description, flowType = {} } = prop;
+    const { name, value } = flowType;
     // 只处理有注释的 prop
     if (description) {
       const desc = parse(description);

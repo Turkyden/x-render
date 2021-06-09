@@ -18,7 +18,6 @@ module.exports = (filePath, options = {}) => {
     );
     debugger
   } catch (e) {
-    debugger
     return toSchema({}, options);
   }
   return toSchema(info, options);

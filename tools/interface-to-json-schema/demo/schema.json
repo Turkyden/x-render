@@ -8,11 +8,13 @@
         "title": "标题",
         "description": "输入标题",
         "pattern": "^[A-Za-z0-9]+$",
+        "type": "string",
         "default": "飞猪互动"
       },
       "bgImage": {
         "title": "背景图片",
         "format": "image",
+        "type": "string",
         "default": "https://img.alicdn.com/tfs/TB1P8p2uQyWBuNjy0FpXXassXXa-750-1334.png"
       },
       "type": {
@@ -22,28 +24,41 @@
           "养成系",
           "动作类"
         ],
+        "type": "union",
+        "enum": [
+          "A",
+          "B"
+        ],
         "default": "A"
       },
       "num": {
         "title": "玩的次数",
-        "description": "输入数字"
+        "description": "输入数字",
+        "type": "number"
       },
       "desArr": {
         "title": "描述",
-        "description": "这里是一个数组格式"
+        "description": "这里是一个数组格式",
+        "type": "array",
+        "items": {
+          "type": "array"
+        }
       },
       "isLike": {
         "title": "是否喜欢",
-        "description": "true 为喜欢，false 为不喜欢"
+        "description": "true 为喜欢，false 为不喜欢",
+        "type": "boolean"
       },
       "upDate": {
         "title": "上线时间",
         "description": "请填入正确的时间格式",
-        "format": "date"
+        "format": "date",
+        "type": "string"
       },
       "styleObj": {
         "title": "样式配置",
         "description": "这是一个对象类型",
+        "type": "intersection",
         "default": "{\n  width: 20,\n  height: 20,\n  background: #ffffff,\n}"
       }
     }
